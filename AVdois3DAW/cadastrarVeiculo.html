@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cadastrar Veiculo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        function enviarForm() {
+                let grupo = document.getElementById("grupo").value;
+                let modelo = document.getElementById("modelo").value;
+                let localizacao = document.getElementById("localizacao").value;
+                let valor = document.getElementById("valor").value;
+                let xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function() {
+                    console.log("mudou status: " + this.readyState);
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log("Chegou resposta: " + this.responseText)
+                        document.getElementById("msg").innerHTML = this.responseText;
+                    }
+                }
+                xmlHttp.open("GET", "cadastrarVeiculoPHP.php?grupo=" + grupo + "&modelo=" + modelo + "&localizacao=" + localizacao + "&valor=" + valor);
+                xmlHttp.send();
+                console.log("Enviei requisição");
+            }
+    </script>
+</head>
+<body>
+    <h1>Página de Cadastro de Veiculo</h1>
+    <h1>Página de Acesso Administrativo</h1>
+    <ul>
+        <li><a href="cadastrarVeiculo.html">Cadastrar Veiculo</a></li>
+        <li><a href="alugarVeiculo.html">Alugar Veiculo</a></li>
+        <li><a href="listarVeiculos.html">Listar Veiculos</a></li>
+    </ul>
+    <form id="formIncluir">
+      <fieldset>
+          <label>Grupo:</label>
+          <select name = "grupo" id = "grupo">
+              <option value="grupo AM">grupo AM</option>
+              <option value="grupo B">grupo B</option>
+              <option value="grupo SU">grupo SU</option>
+              <option value="grupo SV">grupo SV</option>
+          </select><br>
+
+          <label>Modelo:</label>
+          <input type = "text" name = "modelo" id = "modelo"><br>
+
+          <label>localizacao:</label>
+          <select name="localizacao" id="localizacao">
+              <option value="RJ">Rio de Janeiro</option>
+              <option value="SP">Sao Paulo</option>
+              <option value="MG">Minas Gerais</option>
+          </select><br>
+
+          <label>Valor:</label>
+          <input type = "text" name = "valor" id = "valor"><br>
+
+          <input type = "button" name = "envio" value="Cadastrar Veiculo"
+            onclick="enviarForm();">
+        </fieldset>
+    </form>
+
+  <p id="msg">
+    </p>
+</body>
+</html>

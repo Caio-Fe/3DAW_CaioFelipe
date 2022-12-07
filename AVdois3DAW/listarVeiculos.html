@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Listar Veiculos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        function enviarFormAlt() {
+
+                let id = document.getElementById("idAlt").value;
+                let grupo = document.getElementById("grupoAlt").value;
+                let modelo = document.getElementById("modeloAlt").value;
+                let localizacao = document.getElementById("localizacaoAlt").value;
+            let estadoDeAluguel = document.getElementById("estadoDeAluguelAlt").value;
+            let valor = document.getElementById("valorAlt").value;
+            let cliente = document.getElementById("clienteAlt").value;
+            let aluguel = document.getElementById("aluguelAlt").value;
+                let xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function() {
+                    console.log("mudou status: " + this.readyState);
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log("Chegou resposta: " + this.responseText)
+                        document.getElementById("msg").innerHTML = this.responseText;
+                    }
+                }
+                xmlHttp.open("GET", "alterarVeiculo.php?id=" + id+"&grupo="+ grupo + "&modelo=" + modelo + "&localizacao=" + localizacao + "&estadoDeAluguel=" + estadoDeAluguel + "&valor=" + valor + "&cliente=" + cliente + "&aluguel=" + aluguel);
+                xmlHttp.send();
+                console.log("Enviei requisição");
+            }
+
+        function carregaVeiculos() {
+            let xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function() {
+                    console.log("mudou status: " + this.readyState);
+                    if (this.readyState == 4 && this.status == 200) {
+
+                        let obj = JSON.parse(this.responseText);
+                        let x = 0;
+                        for (x=0;x<obj.length;x++) {
+                            console.log("Posicao do Array " + x + " : " + obj[x].nome);
+                            let linha = obj[x];
+                            criarLinhaTabela(linha);
+                        }
+                        console.log("Posicao do x " + x );
+                    }
+                }
+                xmlHttp.open("GET", "ListarVeiculos.php");
+                xmlHttp.send();
+        }
+        function criarLinhaTabela(pobjReturnJSON) {
+            let tb = document.getElementById("tab");
+
+            let tr = document.createElement("tr"); // cria o elemento tr
+
+            let td = document.createElement("td"); // cria o element td
+             let textnode = document.createTextNode(pobjReturnJSON.id);
+             td.appendChild(textnode); // adiciona o texto na td criada
+             tr.appendChild(td); // adiciona a td na tr
+
+            let td2 = document.createElement("td"); // cria o element td
+            textnode = document.createTextNode(pobjReturnJSON.grupo);
+            td2.appendChild(textnode); // adiciona o texto na td criada
+            tr.appendChild(td2); // adiciona a td na tr
+
+            let td3 = document.createElement("td"); // cria o element td
+            textnode = document.createTextNode(pobjReturnJSON.modelo);
+            td3.appendChild(textnode); // adiciona o texto na td criada
+            tr.appendChild(td3); // adiciona a td na tr
+
+            let td4 = document.createElement("td"); // cria o element td
+            textnode = document.createTextNode(pobjReturnJSON.localizacao);
+            td4.appendChild(textnode); // adiciona o texto na td criada
+            tr.appendChild(td4); // adiciona a td na tr
+
+            let td5 = document.createElement("td"); // cria o element td
+            textnode = document.createTextNode(pobjReturnJSON.estadoDeAluguel);
+            td5.appendChild(textnode); // adiciona o texto na td criada
+            tr.appendChild(td5); // adiciona a td na tr
+
+            let td6 = document.createElement("td"); // cria o element td
+            textnode = document.createTextNode(pobjReturnJSON.valor);
+            td6.appendChild(textnode); // adiciona o texto na td criada
+            tr.appendChild(td6); // adiciona a td na tr
+
+            let td7 = document.createElement("td"); // cria o element td
+            textnode = document.createTextNode(pobjReturnJSON.cliente);
+            td7.appendChild(textnode); // adiciona o texto na td criada
+            tr.appendChild(td7); // adiciona a td na tr
+
+            let td8 = document.createElement("td"); // cria o element td
+            textnode = document.createTextNode(pobjReturnJSON.aluguel);
+            td8.appendChild(textnode); // adiciona o texto na td criada
+            tr.appendChild(td8); // adiciona a td na tr
+
+            let td9 = document.createElement("td"); // cria o element td
+            let tagP = document.createElement("span", "onclick");
+            let textnode1 = "buscarVeiculo('" + pobjReturnJSON.id + "')";
+            tagP.setAttribute("onclick",textnode1);
+            textnode = document.createTextNode("Alterar");
+            tagP.appendChild(textnode);
+            td9.appendChild(tagP); // adiciona o texto na td criada
+            tr.appendChild(td9); // adiciona a td na tr
+
+            let td10 = document.createElement("td"); // cria o element td
+            let tagQ = document.createElement("span", "onclick");
+            let textnode2 = "excluirVeiculo('" + pobjReturnJSON.id + "')";
+            tagQ.setAttribute("onclick",textnode2);
+            textnode = document.createTextNode("Excluir");
+            tagQ.appendChild(textnode);
+            td10.appendChild(tagQ); // adiciona o texto na td criada
+            tr.appendChild(td10); // adiciona a td na tr
+
+            tb.appendChild(tr);
+
+            // let tr_fim = document.getElementById("ultimaLinha"); // pega a tr pelo id
+            // // adiciona o elemento criado, a partir do nó pai (no caso <table>)
+            // tr_fim.parentNode.insertBefore(tr, tr_fim);
+        }
+        function buscarVeiculo(id) {
+            let xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                console.log("mudou status: " + this.readyState);
+                if (this.readyState == 4 && this.status == 200) {
+
+                    let obj = JSON.parse(this.responseText);
+                    document.getElementById("idAlt").value=obj.id;
+                    document.getElementById("grupoAlt").value = obj.grupo;
+                    document.getElementById("modeloAlt").value = obj.modelo;
+                    document.getElementById("localizacaoAlt").value = obj.localizacao;
+                    document.getElementById("estadoDeAluguelAlt").value = obj.estadoDeAluguel;
+                    document.getElementById("valorAlt").value = obj.valor;
+                    document.getElementById("clienteAlt").value = obj.cliente;
+                    document.getElementById("aluguelAlt").value = obj.aluguel;
+                    let formAlt = document.getElementById("formAlterar");
+                    formAlt.style.display = "block";
+                }
+            }
+            xmlHttp.open("GET", "buscarVeiculo.php?id=" + id);
+            xmlHttp.send();
+        }
+
+        function excluirVeiculo(id) {
+            let xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                console.log("mudou status: " + this.readyState);
+                if (this.readyState == 4 && this.status == 200) {
+                        console.log("Chegou resposta: " + this.responseText)
+                        document.getElementById("msg").innerHTML = this.responseText;
+                }
+            }
+            xmlHttp.open("GET", "excluirVeiculo.php?id=" + id);
+            xmlHttp.send();
+        }
+
+
+    </script>
+</head>
+<body onload="carregaVeiculos();">
+<h1>Página de Listar todos os Veiculos</h1>
+<h1>Página de Acesso Administrativo</h1>
+<ul>
+    <li><a href="cadastrarVeiculo.html">Cadastrar Veiculo</a></li>
+    <li><a href="alugarVeiculo.html">Alugar Veiculo</a></li>
+    <li><a href="listarVeiculos.html">Listar Veiculos</a></li>
+</ul>
+
+    <table id="tab" style="border:1px solid">
+        <tr style="border:1px solid">
+            <th style="border:1px solid">id</th>
+            <th style="border:1px solid">grupo</th>
+            <th style="border:1px solid">modelo</th>
+            <th style="border:1px solid">localizacao</th>
+            <th style="border:1px solid">estadoDeAluguel</th>
+            <th style="border:1px solid">valor</th>
+            <th style="border:1px solid">cliente</th>
+            <th style="border:1px solid">aluguel	</th>
+            <th style="border:1px solid">Ação de Alterar</th>
+            <th style="border:1px solid">Ação de Excluir</th>
+        </tr>
+    </table>
+    <br><br>
+    <form id="formAlterar" style="display:none">
+            <fieldset>
+                <input type = "hidden" name = "id" id = "idAlt" readonly>
+
+                <label>Grupo:</label>
+                <select name = "grupo" id = "grupoAlt">
+                    <option value="grupo AM">grupo AM</option>
+                    <option value="grupo B">grupo B</option>
+                    <option value="grupo SU">grupo SU</option>
+                    <option value="grupo SV">grupo SV</option>
+                </select><br>
+
+                <label>Modelo:</label>
+                <input type = "text" name = "modelo" id = "modeloAlt"><br>
+
+                <label>localizacao:</label>
+                <select name="localizacao" id="localizacaoAlt">
+                    <option value="RJ">Rio de Janeiro</option>
+                    <option value="SP">Sao Paulo</option>
+                    <option value="MG">Minas Gerais</option>
+                </select><br>
+
+                <label>Valor:</label>
+                <input type = "text" name = "valor" id = "valorAlt"><br>
+
+                <label>estadoDeAluguel:</label>
+                <select name="estadoDeAluguel" id="estadoDeAluguelAlt">
+                    <option value="Livre">Livre</option>
+                    <option value="Alugado">Alugar</option>
+                    <option value="Manutencao">Manutencao</option>
+                </select><br>
+
+                <label>Nome:</label>
+                <input type = "text" name = "cliente" id = "clienteAlt"><br>
+
+                <label>Aluguel por quantos dias:</label>
+                <select name="aluguel" id="aluguelAlt">
+                    <option value=7>7 Dias</option>
+                    <option value=15>15 Dias</option>
+                    <option value=30>30 Dias</option>
+                </select><br>
+
+            </fieldset>
+
+            <input type = "button" name = "envio" value="Enviar" 
+              onclick="enviarFormAlt();">
+
+      </form>
+
+    <p id="msg">
+    </p>
+</body>
+</html>
