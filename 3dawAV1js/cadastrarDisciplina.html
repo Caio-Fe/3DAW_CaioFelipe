@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cadastrar Disciplina</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        function enviarForm() {
+                let nome = document.getElementById("nome").value;
+                let periodo = document.getElementById("periodo").value;
+                let idPreRequisito = document.getElementById("idPreRequisito").value;
+                let creditos = document.getElementById("creditos").value;
+                let xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function() {
+                    console.log("mudou status: " + this.readyState);
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log("Chegou resposta: " + this.responseText)
+                        document.getElementById("msg").innerHTML = this.responseText;
+                    }
+                }
+                xmlHttp.open("GET", "cadastrarDisciplinaPHP.php?nome=" + nome + "&periodo=" + periodo + "&idPreRequisito=" + idPreRequisito + "&creditos=" + creditos);
+                xmlHttp.send();
+                console.log("Enviei requisição");
+            }
+    </script>
+</head>
+<body>
+    <h1>Página de Cadastro de Disciplina</h1>
+    <ul>
+        <li><a href="cadastrarDisciplina.html">Cadastrar Disciplina</a></li>
+        <!--<li><a href="listarDisciplina.html">Listar Disciplina</a></li>
+        <li><a href="listarDisciplinas.html">Listar Disciplinas</a></li>-->
+    </ul>
+    <form id="formIncluir">
+      <fieldset>
+          <label>Nome da Disciplina:</label>
+          <input type = "text" name = "nome" id = "nome"><br>
+
+          <label>Periodo da Disciplina:</label>
+          <select name = "periodo" id = "periodo">
+              <option value="1 periodo">1 periodo</option>
+              <option value="2 periodo">2 periodo</option>
+              <option value="3 periodo">3 periodo</option>
+              <option value="4 periodo">4 periodo</option>
+              <option value="5 periodo">5 periodo</option>
+          </select><br>
+
+          <label>id da disciplina de Pre Requisito:</label>
+          <input type = "text" name = "idPreRequisito" id = "idPreRequisito"><br>
+
+          <label>Creditos:</label>
+          <input type = "text" name = "creditos" id = "creditos"><br>
+
+          <input type = "button" name = "envio" value="Cadastrar Disciplina"
+            onclick="enviarForm();">
+        </fieldset>
+    </form>
+
+  <p id="msg">
+    </p>
+</body>
+</html>
