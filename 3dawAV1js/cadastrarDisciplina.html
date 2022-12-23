@@ -19,7 +19,7 @@
                         document.getElementById("msg").innerHTML = this.responseText;
                     }
                 }
-                xmlHttp.open("GET", "cadastrarDisciplinaPHP.php?nome=" + nome + "&periodo=" + periodo + "&idPreRequisito=" + idPreRequisito + "&creditos=" + creditos);
+                xmlHttp.open("GET", "cadastrarDisciplina.php?nome=" + nome + "&periodo=" + periodo + "&idPreRequisito=" + idPreRequisito + "&creditos=" + creditos);
                 xmlHttp.send();
                 console.log("Enviei requisição");
             }
@@ -30,7 +30,7 @@
     <ul>
         <li><a href="cadastrarDisciplina.html">Cadastrar Disciplina</a></li>
         <li><a href="listarDisciplinas.html">Listar Disciplinas</a></li>
-        <!--<li><a href="listarDisciplina.html">Listar Disciplina</a></li>-->
+        <li><a href="listarDisciplina.html">Listar Dsiciplina</a></li>
     </ul>
     <form id="formIncluir">
       <fieldset>

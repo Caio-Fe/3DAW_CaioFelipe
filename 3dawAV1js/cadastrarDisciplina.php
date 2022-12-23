@@ -18,7 +18,7 @@
         echo $result;
         echo $sql;
         if ($result=true){
-            $mensagem="JOINHA!👍";
+            $mensagem="Disciplina cadastrada";
         } else {
             $mensagem="DEU RUIM!😭😭";
         }
