@@ -9,13 +9,10 @@
         function enviarFormAlt() {
 
                 let id = document.getElementById("idAlt").value;
-                let grupo = document.getElementById("grupoAlt").value;
-                let modelo = document.getElementById("modeloAlt").value;
-                let localizacao = document.getElementById("localizacaoAlt").value;
-            let estadoDeAluguel = document.getElementById("estadoDeAluguelAlt").value;
-            let valor = document.getElementById("valorAlt").value;
-            let cliente = document.getElementById("clienteAlt").value;
-            let aluguel = document.getElementById("aluguelAlt").value;
+                let nome = document.getElementById("nomeAlt").value;
+                let periodo = document.getElementById("periodoAlt").value;
+                let idPreRequisito = document.getElementById("idPreRequisitoAlt").value;
+                let creditos = document.getElementById("creditosAlt").value;
                 let xmlHttp = new XMLHttpRequest();
                 xmlHttp.onreadystatechange = function() {
                     console.log("mudou status: " + this.readyState);
@@ -24,7 +21,7 @@
                         document.getElementById("msg").innerHTML = this.responseText;
                     }
                 }
-                xmlHttp.open("GET", "alterarDisciplina.php?id=" + id+"&grupo="+ grupo + "&modelo=" + modelo + "&localizacao=" + localizacao + "&estadoDeAluguel=" + estadoDeAluguel + "&valor=" + valor + "&cliente=" + cliente + "&aluguel=" + aluguel);
+                xmlHttp.open("GET", "alterarDisciplina.php?id=" + id+"&nome="+ nome + "&periodo=" + periodo + "&idPreRequisito=" + idPreRequisito + "&creditos=" + creditos);
                 xmlHttp.send();
                 console.log("Enviei requisição");
             }
@@ -59,39 +56,39 @@
              tr.appendChild(td); // adiciona a td na tr
 
             let td2 = document.createElement("td"); // cria o element td
-            textnode = document.createTextNode(pobjReturnJSON.grupo);
+            textnode = document.createTextNode(pobjReturnJSON.nome);
             td2.appendChild(textnode); // adiciona o texto na td criada
             tr.appendChild(td2); // adiciona a td na tr
 
             let td3 = document.createElement("td"); // cria o element td
-            textnode = document.createTextNode(pobjReturnJSON.modelo);
+            textnode = document.createTextNode(pobjReturnJSON.periodo);
             td3.appendChild(textnode); // adiciona o texto na td criada
             tr.appendChild(td3); // adiciona a td na tr
 
             let td4 = document.createElement("td"); // cria o element td
-            textnode = document.createTextNode(pobjReturnJSON.localizacao);
+            textnode = document.createTextNode(pobjReturnJSON.idPreRequisito);
             td4.appendChild(textnode); // adiciona o texto na td criada
             tr.appendChild(td4); // adiciona a td na tr
 
             let td5 = document.createElement("td"); // cria o element td
-            textnode = document.createTextNode(pobjReturnJSON.estadoDeAluguel);
+            textnode = document.createTextNode(pobjReturnJSON.creditos);
             td5.appendChild(textnode); // adiciona o texto na td criada
             tr.appendChild(td5); // adiciona a td na tr
 
-            let td6 = document.createElement("td"); // cria o element td
+            /*let td6 = document.createElement("td"); // cria o element td
             textnode = document.createTextNode(pobjReturnJSON.valor);
             td6.appendChild(textnode); // adiciona o texto na td criada
-            tr.appendChild(td6); // adiciona a td na tr
+            tr.appendChild(td6); // adiciona a td na tr*/
 
-            let td7 = document.createElement("td"); // cria o element td
+            /*let td7 = document.createElement("td"); // cria o element td
             textnode = document.createTextNode(pobjReturnJSON.cliente);
             td7.appendChild(textnode); // adiciona o texto na td criada
-            tr.appendChild(td7); // adiciona a td na tr
+            tr.appendChild(td7); // adiciona a td na tr*/
 
-            let td8 = document.createElement("td"); // cria o element td
+            /*let td8 = document.createElement("td"); // cria o element td
             textnode = document.createTextNode(pobjReturnJSON.aluguel);
             td8.appendChild(textnode); // adiciona o texto na td criada
-            tr.appendChild(td8); // adiciona a td na tr
+            tr.appendChild(td8); // adiciona a td na tr*/
 
             let td9 = document.createElement("td"); // cria o element td
             let tagP = document.createElement("span", "onclick");
@@ -125,13 +122,10 @@
 
                     let obj = JSON.parse(this.responseText);
                     document.getElementById("idAlt").value=obj.id;
-                    document.getElementById("grupoAlt").value = obj.grupo;
-                    document.getElementById("modeloAlt").value = obj.modelo;
-                    document.getElementById("localizacaoAlt").value = obj.localizacao;
-                    document.getElementById("estadoDeAluguelAlt").value = obj.estadoDeAluguel;
-                    document.getElementById("valorAlt").value = obj.valor;
-                    document.getElementById("clienteAlt").value = obj.cliente;
-                    document.getElementById("aluguelAlt").value = obj.aluguel;
+                    document.getElementById("nomeAlt").value = obj.nome;
+                    document.getElementById("periodoAlt").value = obj.periodo;
+                    document.getElementById("idPreRequisitoAlt").value = obj.idPreRequisito;
+                    document.getElementById("creditosAlt").value = obj.creditos;
                     let formAlt = document.getElementById("formAlterar");
                     formAlt.style.display = "block";
                 }
@@ -168,15 +162,12 @@
     <table id="tab" style="border:1px solid">
         <tr style="border:1px solid">
             <th style="border:1px solid">id</th>
-            <th style="border:1px solid">grupo</th>
-            <th style="border:1px solid">modelo</th>
-            <th style="border:1px solid">localizacao</th>
-            <th style="border:1px solid">estadoDeAluguel</th>
-            <th style="border:1px solid">valor</th>
-            <th style="border:1px solid">cliente</th>
-            <th style="border:1px solid">aluguel	</th>
-            <th style="border:1px solid">Ação de Alterar</th>
-            <th style="border:1px solid">Ação de Excluir</th>
+            <th style="border:1px solid">nome</th>
+            <th style="border:1px solid">periodo</th>
+            <th style="border:1px solid">idPreRequisito</th>
+            <th style="border:1px solid">creditos</th>
+            <th style="border:1px solid">Alterar Disciplina</th>
+            <th style="border:1px solid">Excluir Disciplina</th>
         </tr>
     </table>
     <br><br>
@@ -184,49 +175,28 @@
             <fieldset>
                 <input type = "hidden" name = "id" id = "idAlt" readonly>
 
-                <label>Grupo:</label>
-                <select name = "grupo" id = "grupoAlt">
-                    <option value="grupo AM">grupo AM</option>
-                    <option value="grupo B">grupo B</option>
-                    <option value="grupo SU">grupo SU</option>
-                    <option value="grupo SV">grupo SV</option>
-                </select><br>
-
-                <label>Modelo:</label>
-                <input type = "text" name = "modelo" id = "modeloAlt"><br>
-
-                <label>localizacao:</label>
-                <select name="localizacao" id="localizacaoAlt">
-                    <option value="RJ">Rio de Janeiro</option>
-                    <option value="SP">Sao Paulo</option>
-                    <option value="MG">Minas Gerais</option>
-                </select><br>
-
-                <label>Valor:</label>
-                <input type = "text" name = "valor" id = "valorAlt"><br>
-
-                <label>estadoDeAluguel:</label>
-                <select name="estadoDeAluguel" id="estadoDeAluguelAlt">
-                    <option value="Livre">Livre</option>
-                    <option value="Alugado">Alugar</option>
-                    <option value="Manutencao">Manutencao</option>
-                </select><br>
-
                 <label>Nome:</label>
-                <input type = "text" name = "cliente" id = "clienteAlt"><br>
+                <input type = "text" name = "nome" id = "nomeAlt"><br>
 
-                <label>Aluguel por quantos dias:</label>
-                <select name="aluguel" id="aluguelAlt">
-                    <option value=7>7 Dias</option>
-                    <option value=15>15 Dias</option>
-                    <option value=30>30 Dias</option>
+                <label>Periodo:</label>
+                <select name = "periodo" id = "periodoAlt">
+                    <option value="1">1 periodo</option>
+                    <option value="2">2 periodo</option>
+                    <option value="3">3 periodo</option>
+                    <option value="4">4 periodo</option>
+                    <option value="5">5 periodo</option>
                 </select><br>
+
+                <label>idPreRequisito:</label>
+                <input type = "text" name = "idPreRequisito" id = "idPreRequisitoAlt"><br>
+
+                <label>Creditos:</label>
+                <input type = "text" name = "creditos" id = "creditosAlt"><br>
 
             </fieldset>
 
             <input type = "button" name = "envio" value="Enviar" 
               onclick="enviarFormAlt();">
-
       </form>
 
     <p id="msg">
