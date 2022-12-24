@@ -42,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <a href="criarUsuarios.php">Criar Usuarios</a><br> <!-- a partir de arquivo, inserir no banco o conteúdo do arquivo-->
 <a href="listarTodosUsuarios.php">Listar todos os Usuarios</a><br>
 <br>
+
 <form enctype="multipart/form-data" action="criarUsuarios.php" method="POST">
     <input type="hidden" name="MAX_FILE_SIZE" value="30000" /> 
     <input type="file" name="filename">
