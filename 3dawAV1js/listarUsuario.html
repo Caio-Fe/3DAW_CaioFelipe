@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Listar Uma Disciplina</title>
+    <title>Listar um Usuario</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
 
@@ -11,9 +11,10 @@
 
             let id = document.getElementById("idAlt").value;
             let nome = document.getElementById("nomeAlt").value;
-            let periodo = document.getElementById("periodoAlt").value;
-            let idPreRequisito = document.getElementById("idPreRequisitoAlt").value;
-            let creditos = document.getElementById("creditosAlt").value;
+            let email = document.getElementById("emailAlt").value;
+            let senha = document.getElementById("senhaAlt").value;
+            let tipo = document.getElementById("tipoAlt").value;
+            let perfil = document.getElementById("perfilAlt").value;
             let xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = function() {
                 console.log("mudou status: " + this.readyState);
@@ -22,16 +23,16 @@
                     document.getElementById("msg").innerHTML = this.responseText;
                 }
             }
-            xmlHttp.open("GET", "alterarDisciplina.php?id=" + id+"&nome="+ nome + "&periodo=" + periodo + "&idPreRequisito=" + idPreRequisito + "&creditos=" + creditos);
+            xmlHttp.open("GET", "alterarUsuario.php?id=" + id+"&nome="+ nome + "&email=" + email + "&senha=" + senha + "&tipo=" + tipo + "&perfil=" + perfil);
             xmlHttp.send();
             console.log("Enviei requisição");
         }
 
-        function carregarDisciplina() {
+        function carregarUsuario() {
             let formAlt = document.getElementById("formularioInicio");
             formAlt.style.display = "none";
             let xmlHttp = new XMLHttpRequest();
-            let id = document.getElementById("idDisciplina").value;
+            let id = document.getElementById("idUsuario").value;
             xmlHttp.onreadystatechange = function() {
                 console.log("mudou status: " + this.readyState);
                 if (this.readyState == 4 && this.status == 200) {
@@ -45,7 +46,7 @@
                     console.log("Posicao do x " + x );
                 }
             }
-            xmlHttp.open("GET", "ListarDisciplina.php?id=" + id);
+            xmlHttp.open("GET", "ListarUsuario.php?id=" + id);
             xmlHttp.send();
         }
         function criarLinhaTabela(pobjReturnJSON) {
@@ -64,37 +65,42 @@
                 tr.appendChild(td2); // adiciona a td na tr
 
                 let td3 = document.createElement("td"); // cria o element td
-                textnode = document.createTextNode(pobjReturnJSON.periodo);
+                textnode = document.createTextNode(pobjReturnJSON.email);
                 td3.appendChild(textnode); // adiciona o texto na td criada
                 tr.appendChild(td3); // adiciona a td na tr
 
                 let td4 = document.createElement("td"); // cria o element td
-                textnode = document.createTextNode(pobjReturnJSON.idPreRequisito);
+                textnode = document.createTextNode(pobjReturnJSON.senha);
                 td4.appendChild(textnode); // adiciona o texto na td criada
                 tr.appendChild(td4); // adiciona a td na tr
 
                 let td5 = document.createElement("td"); // cria o element td
-                textnode = document.createTextNode(pobjReturnJSON.creditos);
+                textnode = document.createTextNode(pobjReturnJSON.tipo);
                 td5.appendChild(textnode); // adiciona o texto na td criada
                 tr.appendChild(td5); // adiciona a td na tr
 
                 let td6 = document.createElement("td"); // cria o element td
-                let tagP = document.createElement("span", "onclick");
-                let textnode1 = "buscarDisciplina('" + pobjReturnJSON.id + "')";
-                tagP.setAttribute("onclick", textnode1);
-                textnode = document.createTextNode("Alterar");
-                tagP.appendChild(textnode);
-                td6.appendChild(tagP); // adiciona o texto na td criada
+                textnode = document.createTextNode(pobjReturnJSON.perfil);
+                td6.appendChild(textnode); // adiciona o texto na td criada
                 tr.appendChild(td6); // adiciona a td na tr
 
                 let td7 = document.createElement("td"); // cria o element td
+                let tagP = document.createElement("span", "onclick");
+                let textnode1 = "buscarUsuario('" + pobjReturnJSON.id + "')";
+                tagP.setAttribute("onclick", textnode1);
+                textnode = document.createTextNode("Alterar");
+                tagP.appendChild(textnode);
+                td7.appendChild(tagP); // adiciona o texto na td criada
+                tr.appendChild(td7); // adiciona a td na tr
+
+                let td8 = document.createElement("td"); // cria o element td
                 let tagQ = document.createElement("span", "onclick");
-                let textnode2 = "excluirDisciplina('" + pobjReturnJSON.id + "')";
+                let textnode2 = "excluirUsuario('" + pobjReturnJSON.id + "')";
                 tagQ.setAttribute("onclick", textnode2);
                 textnode = document.createTextNode("Excluir");
                 tagQ.appendChild(textnode);
-                td7.appendChild(tagQ); // adiciona o texto na td criada
-                tr.appendChild(td7); // adiciona a td na tr
+                td8.appendChild(tagQ); // adiciona o texto na td criada
+                tr.appendChild(td8); // adiciona a td na tr
 
                 tb.appendChild(tr);
             }
@@ -102,14 +108,14 @@
                 let definedTR = document.getElementById("definedTR");
                 definedTR.style.display = "none";
                 let tr = document.createElement("tr"); // cria o elemento tr
-                let td8 = document.createElement("td"); // cria o element td
-                let textnode = document.createTextNode("Disciplina nao encontrada no sistema.");
-                td8.appendChild(textnode); // adiciona o texto na td criada
-                tr.appendChild(td8); // adiciona a td na tr
+                let td9 = document.createElement("td"); // cria o element td
+                let textnode = document.createTextNode("Não há usuario com este 'id' cadastrado.");
+                td9.appendChild(textnode); // adiciona o texto na td criada
+                tr.appendChild(td9); // adiciona a td na tr
                 tb.appendChild(tr);
             }
         }
-        function buscarDisciplina(id) {
+        function buscarUsuario(id) {
             let xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = function() {
                 console.log("mudou status: " + this.readyState);
@@ -118,17 +124,18 @@
                     let obj = JSON.parse(this.responseText);
                     document.getElementById("idAlt").value=obj.id;
                     document.getElementById("nomeAlt").value = obj.nome;
-                    document.getElementById("periodoAlt").value = obj.periodo;
-                    document.getElementById("idPreRequisitoAlt").value = obj.idPreRequisito;
-                    document.getElementById("creditosAlt").value = obj.creditos;
+                    document.getElementById("emailAlt").value = obj.email;
+                    document.getElementById("senhaAlt").value = obj.senha;
+                    document.getElementById("tipoAlt").value = obj.tipo;
+                    document.getElementById("perfilAlt").value = obj.tipo;
                     let formAlt = document.getElementById("formAlterar");
                     formAlt.style.display = "block";
                 }
             }
-            xmlHttp.open("GET", "buscarDisciplina.php?id=" + id);
+            xmlHttp.open("GET", "buscarUsuario.php?id=" + id);
             xmlHttp.send();
         }
-        function excluirDisciplina(id) {
+        function excluirUsuario(id) {
             let xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = function() {
                 console.log("mudou status: " + this.readyState);
@@ -137,7 +144,7 @@
                     document.getElementById("msg").innerHTML = this.responseText;
                 }
             }
-            xmlHttp.open("GET", "excluirDisciplina.php?id=" + id);
+            xmlHttp.open("GET", "excluirUsuario.php?id=" + id);
             xmlHttp.send();
         }
     </script>
@@ -146,11 +153,11 @@
 
 <form id="formularioInicio" style="display:block">
     <fieldset>
-        <label>Digite o id da disciplina que você deseja buscar:</label>
-        <input type = "text" name = "id" id = "idDisciplina">
+        <label>Digite o id do Usuario que você deseja buscar:</label>
+        <input type = "text" name = "id" id = "idUsuario">
 
         <input type = "button" name = "envio" value="Enviar"
-               onclick="carregarDisciplina();">
+               onclick="carregarUsuario();">
     </fieldset>
 </form>
 
@@ -167,11 +174,12 @@
     <tr id="definedTR" style="border:1px solid">
         <th style="border:1px solid">id</th>
         <th style="border:1px solid">nome</th>
-        <th style="border:1px solid">periodo</th>
-        <th style="border:1px solid">idPreRequisito</th>
-        <th style="border:1px solid">creditos</th>
-        <th style="border:1px solid">Alterar Disciplina</th>
-        <th style="border:1px solid">Excluir Disciplina</th>
+        <th style="border:1px solid">email</th>
+        <th style="border:1px solid">senha</th>
+        <th style="border:1px solid">tipo</th>
+        <th style="border:1px solid">perfil</th>
+        <th style="border:1px solid">Alterar Usuario</th>
+        <th style="border:1px solid">Excluir Usuario</th>
     </tr>
 </table>
 <br><br>
@@ -182,20 +190,17 @@
         <label>Nome:</label>
         <input type = "text" name = "nome" id = "nomeAlt"><br>
 
-        <label>Periodo:</label>
-        <select name = "periodo" id = "periodoAlt">
-            <option value="1">1 periodo</option>
-            <option value="2">2 periodo</option>
-            <option value="3">3 periodo</option>
-            <option value="4">4 periodo</option>
-            <option value="5">5 periodo</option>
-        </select><br>
+        <label>Email:</label>
+        <input type = "text" name = "email" id = "emailAlt"><br>
 
-        <label>idPreRequisito:</label>
-        <input type = "text" name = "idPreRequisito" id = "idPreRequisitoAlt"><br>
+        <label>Senha:</label>
+        <input type = "text" name = "senha" id = "senhaAlt"><br>
 
-        <label>Creditos:</label>
-        <input type = "text" name = "creditos" id = "creditosAlt"><br>
+        <label>Tipo:</label>
+        <input type = "text" name = "tipo" id = "tipoAlt"><br>
+
+        <label>Perfil:</label>
+        <input type = "text" name = "perfil" id = "perfilAlt"><br>
     </fieldset>
 
     <input type = "button" name = "envio" value="Enviar"

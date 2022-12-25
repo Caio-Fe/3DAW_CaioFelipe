@@ -9,19 +9,20 @@
     {
         $id = $_GET["id"];
         $nome = $_GET["nome"];
-        $periodo= $_GET["periodo"];
-        $idPreRequisito= $_GET["idPreRequisito"];
-        $creditos= $_GET["creditos"];
+        $email= $_GET["email"];
+        $senha= $_GET["senha"];
+        $tipo= $_GET["tipo"];
+        $perfil= $_GET["perfil"];
 
         $conn = new mysqli ($servidor, $user, $pass, $banco);
-        $sql= "UPDATE disciplinas SET nome = '". $nome ."', periodo = '" .$periodo. "', idPreRequisito = '" .$idPreRequisito. "', creditos = '" .$creditos. "' WHERE id = '" . $id. "' ";
+        $sql= "UPDATE usuarios SET nome = '". $nome ."', email = '" .$email. "', senha = '" .$senha. "', tipo = '" .$tipo. "', perfil = '" .$perfil. "' WHERE id = '" . $id. "' ";
 
         $result=$conn->query($sql);
 
         $i = 0;
 
         if ($result=true){
-            $retorno=json_encode("Disciplina foi Alterada");
+            $retorno=json_encode("Usuario foi Alterado");
 
         } else {
             $retorno=json_encode("DEU RUIM!😭😭");
