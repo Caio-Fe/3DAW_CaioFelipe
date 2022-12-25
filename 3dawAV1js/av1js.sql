@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2022 at 06:06 PM
+-- Generation Time: Dec 25, 2022 at 09:24 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `disciplina`
+-- Table structure for table `disciplinas`
 --
 
-CREATE TABLE `disciplina` (
+CREATE TABLE `disciplinas` (
   `id` int(11) NOT NULL,
   `nome` varchar(50) NOT NULL,
   `periodo` varchar(50) NOT NULL,
@@ -35,21 +35,35 @@ CREATE TABLE `disciplina` (
   `creditos` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `disciplina`
+-- Table structure for table `usuarios`
 --
 
-INSERT INTO `disciplina` (`id`, `nome`, `periodo`, `idPreRequisito`, `creditos`) VALUES
-(1, '123', '3 periodo', '0', '23');
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `senha` varchar(50) NOT NULL,
+  `tipo` varchar(50) NOT NULL,
+  `perfil` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `disciplina`
+-- Indexes for table `disciplinas`
 --
-ALTER TABLE `disciplina`
+ALTER TABLE `disciplinas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `usuarios`
+--
+ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -57,10 +71,16 @@ ALTER TABLE `disciplina`
 --
 
 --
--- AUTO_INCREMENT for table `disciplina`
+-- AUTO_INCREMENT for table `disciplinas`
 --
-ALTER TABLE `disciplina`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `disciplinas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

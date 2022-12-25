@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Listar Disciplinas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        function enviarFormAlt() {
+
+                let id = document.getElementById("idAlt").value;
+                let nome = document.getElementById("nomeAlt").value;
+                let periodo = document.getElementById("periodoAlt").value;
+                let idPreRequisito = document.getElementById("idPreRequisitoAlt").value;
+                let creditos = document.getElementById("creditosAlt").value;
+                let xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function() {
+                    console.log("mudou status: " + this.readyState);
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log("Chegou resposta: " + this.responseText)
+                        document.getElementById("msg").innerHTML = this.responseText;
+                    }
+                }
+                xmlHttp.open("GET", "alterarDisciplina.php?id=" + id+"&nome="+ nome + "&periodo=" + periodo + "&idPreRequisito=" + idPreRequisito + "&creditos=" + creditos);
+                xmlHttp.send();
+                console.log("Enviei requisição");
+            }
+
+        function carregaDisciplinas() {
+            let xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function() {
+                    console.log("mudou status: " + this.readyState);
+                    if (this.readyState == 4 && this.status == 200) {
+
+                        let obj = JSON.parse(this.responseText);
+                        let x = 0;
+                        for (x=0;x<obj.length;x++) {
+                            console.log("Posicao do Array " + x + " : " + obj[x].nome);
+                            let linha = obj[x];
+                            criarLinhaTabela(linha);
+                        }
+                        console.log("Posicao do x " + x );
+                    }
+                }
+                xmlHttp.open("GET", "ListarDisciplinas.php");
+                xmlHttp.send();
+        }
+        function criarLinhaTabela(pobjReturnJSON) {
+            let tb = document.getElementById("tab");
+            if(typeof pobjReturnJSON.id !== 'undefined') {
+                let tr = document.createElement("tr"); // cria o elemento tr
+
+                let td = document.createElement("td"); // cria o element td
+                let textnode = document.createTextNode(pobjReturnJSON.id);
+                td.appendChild(textnode); // adiciona o texto na td criada
+                tr.appendChild(td); // adiciona a td na tr
+
+                let td2 = document.createElement("td"); // cria o element td
+                textnode = document.createTextNode(pobjReturnJSON.nome);
+                td2.appendChild(textnode); // adiciona o texto na td criada
+                tr.appendChild(td2); // adiciona a td na tr
+
+                let td3 = document.createElement("td"); // cria o element td
+                textnode = document.createTextNode(pobjReturnJSON.periodo);
+                td3.appendChild(textnode); // adiciona o texto na td criada
+                tr.appendChild(td3); // adiciona a td na tr
+
+                let td4 = document.createElement("td"); // cria o element td
+                textnode = document.createTextNode(pobjReturnJSON.idPreRequisito);
+                td4.appendChild(textnode); // adiciona o texto na td criada
+                tr.appendChild(td4); // adiciona a td na tr
+
+                let td5 = document.createElement("td"); // cria o element td
+                textnode = document.createTextNode(pobjReturnJSON.creditos);
+                td5.appendChild(textnode); // adiciona o texto na td criada
+                tr.appendChild(td5); // adiciona a td na tr
+
+                let td6 = document.createElement("td"); // cria o element td
+                let tagP = document.createElement("span", "onclick");
+                let textnode1 = "buscarDisciplina('" + pobjReturnJSON.id + "')";
+                tagP.setAttribute("onclick", textnode1);
+                textnode = document.createTextNode("Alterar");
+                tagP.appendChild(textnode);
+                td6.appendChild(tagP); // adiciona o texto na td criada
+                tr.appendChild(td6); // adiciona a td na tr
+
+                let td7 = document.createElement("td"); // cria o element td
+                let tagQ = document.createElement("span", "onclick");
+                let textnode2 = "excluirDisciplina('" + pobjReturnJSON.id + "')";
+                tagQ.setAttribute("onclick", textnode2);
+                textnode = document.createTextNode("Excluir");
+                tagQ.appendChild(textnode);
+                td7.appendChild(tagQ); // adiciona o texto na td criada
+                tr.appendChild(td7); // adiciona a td na tr
+
+                tb.appendChild(tr);
+            }
+            else{
+                let definedTR = document.getElementById("definedTR");
+                definedTR.style.display = "none";
+                let tr = document.createElement("tr"); // cria o elemento tr
+                let td8 = document.createElement("td"); // cria o element td
+                let textnode = document.createTextNode("Não há disciplinas cadastradas.");
+                td8.appendChild(textnode); // adiciona o texto na td criada
+                tr.appendChild(td8); // adiciona a td na tr
+                tb.appendChild(tr);
+            }
+        }
+        function buscarDisciplina(id) {
+            let xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                console.log("mudou status: " + this.readyState);
+                if (this.readyState == 4 && this.status == 200) {
+
+                    let obj = JSON.parse(this.responseText);
+                    document.getElementById("idAlt").value=obj.id;
+                    document.getElementById("nomeAlt").value = obj.nome;
+                    document.getElementById("periodoAlt").value = obj.periodo;
+                    document.getElementById("idPreRequisitoAlt").value = obj.idPreRequisito;
+                    document.getElementById("creditosAlt").value = obj.creditos;
+                    let formAlt = document.getElementById("formAlterar");
+                    formAlt.style.display = "block";
+                }
+            }
+            xmlHttp.open("GET", "buscarDisciplina.php?id=" + id);
+            xmlHttp.send();
+        }
+
+        function excluirDisciplina(id) {
+            let xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                console.log("mudou status: " + this.readyState);
+                if (this.readyState == 4 && this.status == 200) {
+                        console.log("Chegou resposta: " + this.responseText)
+                        document.getElementById("msg").innerHTML = this.responseText;
+                }
+            }
+            xmlHttp.open("GET", "excluirDisciplina.php?id=" + id);
+            xmlHttp.send();
+        }
+
+
+    </script>
+</head>
+<body onload="carregaDisciplinas();">
+<h1>Página de Listar todos os Disciplinas</h1>
+
+<ul>
+    <li><a href="cadastrarDisciplina.html">Cadastrar disciplina</a></li>
+    <li><a href="listarDisciplinas.html">Listar todas as disciplinas</a></li>
+    <li><a href="listarDisciplina.html">Listar uma Disciplina</a></li>
+    <li><a href="cadastrarUsuarios.php">Cadastrar Usuarios por arquivo</a></li>
+    <li><a href="listarUsuarios.html">Listar todos os usuarios</a></li>
+    <li><a href="listarUsuario.html">Listar um usuario</a></li>
+</ul>
+
+<table id="tab" style="border:1px solid">
+    <tr id="definedTR" style="border:1px solid">
+        <th style="border:1px solid">id</th>
+        <th style="border:1px solid">nome</th>
+        <th style="border:1px solid">periodo</th>
+        <th style="border:1px solid">idPreRequisito</th>
+        <th style="border:1px solid">creditos</th>
+        <th style="border:1px solid">Alterar Disciplina</th>
+        <th style="border:1px solid">Excluir Disciplina</th>
+    </tr>
+</table>
+    <br><br>
+    <form id="formAlterar" style="display:none">
+            <fieldset>
+                <input type = "hidden" name = "id" id = "idAlt" readonly>
+
+                <label>Nome:</label>
+                <input type = "text" name = "nome" id = "nomeAlt"><br>
+
+                <label>Periodo:</label>
+                <select name = "periodo" id = "periodoAlt">
+                    <option value="1">1 periodo</option>
+                    <option value="2">2 periodo</option>
+                    <option value="3">3 periodo</option>
+                    <option value="4">4 periodo</option>
+                    <option value="5">5 periodo</option>
+                </select><br>
+
+                <label>idPreRequisito:</label>
+                <input type = "text" name = "idPreRequisito" id = "idPreRequisitoAlt"><br>
+
+                <label>Creditos:</label>
+                <input type = "text" name = "creditos" id = "creditosAlt"><br>
+            </fieldset>
+
+            <input type = "button" name = "envio" value="Enviar" 
+              onclick="enviarFormAlt();">
+      </form>
+
+    <p id="msg">
+    </p>
+</body>
+</html>

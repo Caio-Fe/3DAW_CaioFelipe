@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Listar Usuarios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        function enviarFormAlt() {
+
+                let id = document.getElementById("idAlt").value;
+                let nome = document.getElementById("nomeAlt").value;
+                let email = document.getElementById("emailAlt").value;
+                let senha = document.getElementById("senhaAlt").value;
+                let tipo = document.getElementById("tipoAlt").value;
+                let perfil = document.getElementById("perfilAlt").value;
+                let xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function() {
+                    console.log("mudou status: " + this.readyState);
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log("Chegou resposta: " + this.responseText)
+                        document.getElementById("msg").innerHTML = this.responseText;
+                    }
+                }
+                xmlHttp.open("GET", "alterarUsuario.php?id=" + id+"&nome="+ nome + "&email=" + email + "&senha=" + senha + "&tipo=" + tipo + "&perfil=" + perfil);
+                xmlHttp.send();
+                console.log("Enviei requisição");
+            }
+
+        function carregaUsuarios() {
+            let xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function() {
+                    console.log("mudou status: " + this.readyState);
+                    if (this.readyState == 4 && this.status == 200) {
+
+                        let obj = JSON.parse(this.responseText);
+                        let x = 0;
+                        for (x=0;x<obj.length;x++) {
+                            console.log("Posicao do Array " + x + " : " + obj[x].nome);
+                            let linha = obj[x];
+                            criarLinhaTabela(linha);
+                        }
+                        console.log("Posicao do x " + x );
+                    }
+                }
+                xmlHttp.open("GET", "ListarUsuarios.php");
+                xmlHttp.send();
+        }
+        function criarLinhaTabela(pobjReturnJSON) {
+            let tb = document.getElementById("tab");
+            if(typeof pobjReturnJSON.id !== 'undefined') {
+                let tr = document.createElement("tr"); // cria o elemento tr
+
+                let td = document.createElement("td"); // cria o element td
+                let textnode = document.createTextNode(pobjReturnJSON.id);
+                td.appendChild(textnode); // adiciona o texto na td criada
+                tr.appendChild(td); // adiciona a td na tr
+
+                let td2 = document.createElement("td"); // cria o element td
+                textnode = document.createTextNode(pobjReturnJSON.nome);
+                td2.appendChild(textnode); // adiciona o texto na td criada
+                tr.appendChild(td2); // adiciona a td na tr
+
+                let td3 = document.createElement("td"); // cria o element td
+                textnode = document.createTextNode(pobjReturnJSON.email);
+                td3.appendChild(textnode); // adiciona o texto na td criada
+                tr.appendChild(td3); // adiciona a td na tr
+
+                let td4 = document.createElement("td"); // cria o element td
+                textnode = document.createTextNode(pobjReturnJSON.senha);
+                td4.appendChild(textnode); // adiciona o texto na td criada
+                tr.appendChild(td4); // adiciona a td na tr
+
+                let td5 = document.createElement("td"); // cria o element td
+                textnode = document.createTextNode(pobjReturnJSON.tipo);
+                td5.appendChild(textnode); // adiciona o texto na td criada
+                tr.appendChild(td5); // adiciona a td na tr
+
+                let td6 = document.createElement("td"); // cria o element td
+                textnode = document.createTextNode(pobjReturnJSON.perfil);
+                td6.appendChild(textnode); // adiciona o texto na td criada
+                tr.appendChild(td6); // adiciona a td na tr
+
+                let td7 = document.createElement("td"); // cria o element td
+                let tagP = document.createElement("span", "onclick");
+                let textnode1 = "buscarUsuario('" + pobjReturnJSON.id + "')";
+                tagP.setAttribute("onclick", textnode1);
+                textnode = document.createTextNode("Alterar");
+                tagP.appendChild(textnode);
+                td7.appendChild(tagP); // adiciona o texto na td criada
+                tr.appendChild(td7); // adiciona a td na tr
+
+                let td8 = document.createElement("td"); // cria o element td
+                let tagQ = document.createElement("span", "onclick");
+                let textnode2 = "excluirUsuario('" + pobjReturnJSON.id + "')";
+                tagQ.setAttribute("onclick", textnode2);
+                textnode = document.createTextNode("Excluir");
+                tagQ.appendChild(textnode);
+                td8.appendChild(tagQ); // adiciona o texto na td criada
+                tr.appendChild(td8); // adiciona a td na tr
+
+                tb.appendChild(tr);
+            }
+            else{
+                let definedTR = document.getElementById("definedTR");
+                definedTR.style.display = "none";
+                let tr = document.createElement("tr"); // cria o elemento tr
+                let td9 = document.createElement("td"); // cria o element td
+                let textnode = document.createTextNode("Não há Usuarios cadastrados.");
+                td9.appendChild(textnode); // adiciona o texto na td criada
+                tr.appendChild(td9); // adiciona a td na tr
+                tb.appendChild(tr);
+            }
+        }
+        function buscarUsuario(id) {
+            let xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                console.log("mudou status: " + this.readyState);
+                if (this.readyState == 4 && this.status == 200) {
+
+                    let obj = JSON.parse(this.responseText);
+                    document.getElementById("idAlt").value=obj.id;
+                    document.getElementById("nomeAlt").value = obj.nome;
+                    document.getElementById("emailAlt").value = obj.email;
+                    document.getElementById("senhaAlt").value = obj.senha;
+                    document.getElementById("tipoAlt").value = obj.tipo;
+                    document.getElementById("perfilAlt").value = obj.perfil;
+                    let formAlt = document.getElementById("formAlterar");
+                    formAlt.style.display = "block";
+                }
+            }
+            xmlHttp.open("GET", "buscarUsuario.php?id=" + id);
+            xmlHttp.send();
+        }
+
+        function excluirUsuario(id) {
+            let xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                console.log("mudou status: " + this.readyState);
+                if (this.readyState == 4 && this.status == 200) {
+                        console.log("Chegou resposta: " + this.responseText)
+                        document.getElementById("msg").innerHTML = this.responseText;
+                }
+            }
+            xmlHttp.open("GET", "excluirUsuario.php?id=" + id);
+            xmlHttp.send();
+        }
+    </script>
+</head>
+<body onload="carregaUsuarios();">
+<h1>Página de Listar todos os Usuarios</h1>
+
+<ul>
+    <li><a href="cadastrarDisciplina.html">Cadastrar disciplina</a></li>
+    <li><a href="listarDisciplinas.html">Listar todas as disciplinas</a></li>
+    <li><a href="listarDisciplina.html">Listar uma Disciplina</a></li>
+    <li><a href="cadastrarUsuarios.php">Cadastrar Usuarios por arquivo</a></li>
+    <li><a href="listarUsuarios.html">Listar todos os usuarios</a></li>
+    <li><a href="listarUsuario.html">Listar um usuario</a></li>
+</ul>
+
+<table id="tab" style="border:1px solid">
+    <tr id="definedTR" style="border:1px solid">
+        <th style="border:1px solid">id</th>
+        <th style="border:1px solid">nome</th>
+        <th style="border:1px solid">email</th>
+        <th style="border:1px solid">senha</th>
+        <th style="border:1px solid">tipo</th>
+        <th style="border:1px solid">perfil</th>
+        <th style="border:1px solid">Alterar Usuario</th>
+        <th style="border:1px solid">Excluir Usuario</th>
+    </tr>
+</table>
+    <br><br>
+    <form id="formAlterar" style="display:none">
+            <fieldset>
+                <input type = "hidden" name = "id" id = "idAlt" readonly>
+
+                <label>Nome:</label>
+                <input type = "text" name = "nome" id = "nomeAlt"><br>
+
+                <label>Email:</label>
+                <input type = "text" name = "email" id = "emailAlt"><br>
+
+                <label>Senha:</label>
+                <input type = "text" name = "senha" id = "senhaAlt"><br>
+
+                <label>Tipo:</label>
+                <input type = "text" name = "tipo" id = "tipoAlt"><br>
+
+                <label>Perfil:</label>
+                <input type = "text" name = "perfil" id = "perfilAlt"><br>
+            </fieldset>
+
+            <input type = "button" name = "envio" value="Enviar" 
+              onclick="enviarFormAlt();">
+      </form>
+
+    <p id="msg">
+    </p>
+</body>
+</html>

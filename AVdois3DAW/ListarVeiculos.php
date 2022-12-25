@@ -10,15 +10,15 @@
         $conn = new mysqli ($servidor, $user, $pass, $banco);
         $sql="SELECT * FROM `veiculos`";
         $result=$conn->query($sql);
-        $arrAlunos[] = array();
+        $arrVeiculos[] = array();
         $i = 0;
         While ($linha = $result->fetch_assoc()){
-            $arrAlunos[$i] = $linha;
+            $arrVeiculos[$i] = $linha;
             $i++;
         }
 
         if ($result=true){
-            $retorno=json_encode($arrAlunos);
+            $retorno=json_encode($arrVeiculos);
 
         } else {
             $retorno=json_encode("DEU RUIM!😭😭");

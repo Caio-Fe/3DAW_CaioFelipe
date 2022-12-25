@@ -19,7 +19,7 @@
                         document.getElementById("msg").innerHTML = this.responseText;
                     }
                 }
-                xmlHttp.open("GET", "cadastrarDisciplinaPHP.php?nome=" + nome + "&periodo=" + periodo + "&idPreRequisito=" + idPreRequisito + "&creditos=" + creditos);
+                xmlHttp.open("GET", "cadastrarDisciplina.php?nome=" + nome + "&periodo=" + periodo + "&idPreRequisito=" + idPreRequisito + "&creditos=" + creditos);
                 xmlHttp.send();
                 console.log("Enviei requisição");
             }
@@ -28,9 +28,12 @@
 <body>
     <h1>Página de Cadastro de Disciplina</h1>
     <ul>
-        <li><a href="cadastrarDisciplina.html">Cadastrar Disciplina</a></li>
-        <!--<li><a href="listarDisciplina.html">Listar Disciplina</a></li>
-        <li><a href="listarDisciplinas.html">Listar Disciplinas</a></li>-->
+        <li><a href="cadastrarDisciplina.html">Cadastrar disciplina</a></li>
+        <li><a href="listarDisciplinas.html">Listar todas as disciplinas</a></li>
+        <li><a href="listarDisciplina.html">Listar uma Disciplina</a></li>
+        <li><a href="cadastrarUsuarios.php">Cadastrar Usuarios por arquivo</a></li>
+        <li><a href="listarUsuarios.html">Listar todos os usuarios</a></li>
+        <li><a href="listarUsuario.html">Listar um usuario</a></li>
     </ul>
     <form id="formIncluir">
       <fieldset>
@@ -39,11 +42,11 @@
 
           <label>Periodo da Disciplina:</label>
           <select name = "periodo" id = "periodo">
-              <option value="1 periodo">1 periodo</option>
-              <option value="2 periodo">2 periodo</option>
-              <option value="3 periodo">3 periodo</option>
-              <option value="4 periodo">4 periodo</option>
-              <option value="5 periodo">5 periodo</option>
+              <option value="1">1 periodo</option>
+              <option value="2">2 periodo</option>
+              <option value="3">3 periodo</option>
+              <option value="4">4 periodo</option>
+              <option value="5">5 periodo</option>
           </select><br>
 
           <label>id da disciplina de Pre Requisito:</label>
